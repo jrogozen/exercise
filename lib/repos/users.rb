@@ -2,32 +2,50 @@ module Exercise
   module Repo
     class Users < Repo
 
-      # def build_entity(hash)
-      #   Exercise::User.new(
-      #     {
-      #       :name => hash[:name],
-      #       :id => hash["_id"]
-      #     }
-      #   )
-      # end
+      def build_entity(hash)
+        Exercise::User.new(
+          {
+            :name => hash[:name],
+            :id => hash["_id"],
+            :bench_press => hash[:bench_press],
+            :squat => hash[:squat],
+            :deadlift => hash[:deadlift]
+          }
+        )
+      end
 
       def save_user(user)
-
-        result = @users.find({"_id" => user.id}).to_a
+        result = @users.find({"i" => user.id}).to_a
 
         if result.empty?
           id = @users.insert( 
-            { :name => user.name}
+            { :name => user.name,
+              :bench_press => user.bench_press,
+              :squat => user.squat,
+              :deadlift => user.deadlift
+            }
           )
-          user.id = id
         else
-          @users.update(
-            { "_id" => user.id },
-            { $set => {:name => user.name} }
+          id = @users.update(
+            { "i" => user.id },
+            { $set => {
+                :name => user.name,
+                :bench_press => user.bench_press,
+                :squat => user.squat,
+                :deadlift => user.deadlift
+              } 
+            }
           )
         end
-        
       end
+
+      def view_user(user_id)
+      end
+
+      def view_weights(user_id)
+      end
+
+
 
     end
   end

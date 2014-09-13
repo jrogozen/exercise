@@ -4,9 +4,10 @@ module Exercise
   module Repo
     class Repo
       def initialize
-        mongo = Mongo::MongoClient.new
-        @db = mongo['exercisedb']
-        @users = @db['users']
+        db = Mongo::MongoClient.new["exercisedb"]
+        
+        @users = db.collection("users")
+        @users.create_index("name")
       end
     end
   end
